@@ -1177,6 +1177,8 @@ a.cnt-row:hover .cr-val { color: var(--navy); }
   .appbar-logo {
     opacity: 1;
     transform: translateY(-50%);
+    width: 44px;
+    height: 44px;
   }
   .appbar-brand-text {
     opacity: 0;
@@ -1194,7 +1196,16 @@ a.cnt-row:hover .cr-val { color: var(--navy); }
   }
   .hero-top,
   .hero-bottom { margin: 0; }
-  .hero-logo-right { display: none; }
+  .hero-logo-right {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 200px;
+    opacity: 0.12;
+    pointer-events: none;
+  }
+  .hero-logo-right img { width: 200px; }
   .servicios,
   .proyectos,
   .nosotros,

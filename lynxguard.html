@@ -1380,25 +1380,79 @@
     .pago-toast strong { color: var(--accent-gold); }
     .pago-toast small { font-size: 0.78rem; color: var(--text-muted); }
 
+    /* ── Hamburger lynxguard ── */
+    .lx-hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 6px;
+      z-index: 10;
+    }
+    .lx-hamburger span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: #e5e7eb;
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+    .lx-hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+    .lx-hamburger.active span:nth-child(2) { opacity: 0; width: 0; }
+    .lx-hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
     @media (max-width: 768px) {
       header {
         padding: 12px 20px;
-        flex-direction: column;
-        gap: 12px;
+        position: relative;
+      }
+
+      .lx-hamburger {
+        display: flex;
       }
 
       nav {
-        gap: 12px;
-        font-size: 0.8rem;
-        flex-wrap: wrap;
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        flex-direction: column;
+        gap: 0;
+        align-items: stretch;
+        background: rgba(10, 14, 28, 0.97);
+        backdrop-filter: blur(14px);
+        border-bottom: 1px solid rgba(255,255,255,0.07);
+        padding: 8px 20px 16px;
+        z-index: 999;
+      }
+      nav.lx-open { display: flex; }
+      nav a {
+        padding: 11px 0;
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+        font-size: 0.9rem;
+      }
+      nav a:last-of-type { border-bottom: none; }
+      nav .btn-nav,
+      nav .btn-plan {
+        margin-top: 10px;
+        width: 100%;
         justify-content: center;
       }
 
       .hero {
         grid-template-columns: 1fr;
-        padding: 30px 20px;
-        gap: 20px;
+        height: auto;
+        min-height: 100svh;
+        padding: 90px 20px 50px;
+        margin-top: 0;
+        gap: 0;
       }
+
+      .hero-visual { display: none; }
 
       .hero h1 {
         font-size: 2rem;
@@ -1418,6 +1472,11 @@
         text-align: center;
       }
 
+      .hero::before,
+      .features::before {
+        background-attachment: scroll;
+      }
+
       .collage-grid {
         grid-template-columns: 1fr;
       }
@@ -1426,7 +1485,7 @@
         aspect-ratio: 16/9;
       }
 
-            .contact-grid {
+      .contact-grid {
         flex-direction: column;
       }
 
@@ -1485,7 +1544,10 @@
       <img src="assets/logotrans.png" alt="LynxGuard" />
       <span><span class="lynx">Lynx</span><span class="guard">Guard</span></span>
     </div>
-    <nav>
+    <button class="lx-hamburger" id="lxHamburger" aria-label="Menú" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <nav id="lxNav">
       <a href="#features">Características</a>
       <a href="#faq">FAQ</a>
       <a href="#contact">Contacto</a>
@@ -2387,6 +2449,24 @@
 
       mostrarPaso2();
     });
+
+    // ── HAMBURGER MÓVIL ──
+    const lxHamburger = document.getElementById('lxHamburger');
+    const lxNav = document.getElementById('lxNav');
+    if (lxHamburger && lxNav) {
+      lxHamburger.addEventListener('click', () => {
+        const open = lxHamburger.classList.toggle('active');
+        lxNav.classList.toggle('lx-open', open);
+        lxHamburger.setAttribute('aria-expanded', open);
+      });
+      lxNav.querySelectorAll('a, button').forEach(el => {
+        el.addEventListener('click', () => {
+          lxHamburger.classList.remove('active');
+          lxNav.classList.remove('lx-open');
+          lxHamburger.setAttribute('aria-expanded', 'false');
+        });
+      });
+    }
 
     // ── PAYPAL BUTTONS ──
     function renderPayPalButtons() {
