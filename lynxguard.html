@@ -1,0 +1,2511 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LynxGuard — Walkie Talkie PTT Empresarial | Ágora Software</title>
+  <meta name="description" content="LynxGuard es la app de Push-to-Talk empresarial para equipos de seguridad, construcción y logística. Comunicación en tiempo real, cifrada, desde $12.000/cuenta al mes." />
+  <meta name="author" content="Ágora Software" />
+  <meta property="og:title" content="LynxGuard — Walkie Talkie PTT Empresarial" />
+  <meta property="og:description" content="Comunicación de voz en tiempo real para equipos de trabajo. PTT, mensajería grupal, llamadas individuales y control administrativo." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://agorasoftware.net/lynxguard" />
+  <meta name="theme-color" content="#0F1729" />
+  <link rel="icon" href="assets/logoagora1trans.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Inter:wght@100;300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: "Inter", sans-serif;
+      background: #0F1729;
+      color: #fff;
+      line-height: 1.6;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    a { text-decoration: none; color: inherit; }
+
+    /* ===== VARIABLES DE COLOR ===== */
+    :root {
+      --primary-blue: #2563EB;
+      --primary-dark-blue: #1D4ED8;
+      --accent-gold: #FBBF24;
+      --accent-gold-dark: #F59E0B;
+      --text-light: #D1D5DB;
+      --text-muted: #9CA3AF;
+      --border-color: #374151;
+      --bg-secondary: rgba(255,255,255,0.06);
+      --bg-hover: rgba(255,255,255,0.1);
+    }
+
+    /* ===== HEADER NAVBAR ===== */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      backdrop-filter: blur(12px);
+      background: rgba(15, 23, 41, 0.85);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      padding: 14px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      letter-spacing: -0.5px;
+    }
+
+    .logo-header img {
+      height: 32px;
+      width: auto;
+    }
+
+    .logo-header .lynx {
+      color: #FBBF24;
+    }
+
+    .logo-header .guard {
+      color: #2563EB;
+    }
+
+    nav {
+      display: flex;
+      gap: 32px;
+      align-items: center;
+    }
+
+    nav a {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: #D1D5DB;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--accent-gold);
+      transition: width 0.3s ease;
+    }
+
+    nav a:hover {
+      color: #FBBF24;
+    }
+
+    nav a:hover::after {
+      width: 100%;
+    }
+
+    .btn-nav {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #fff;
+      background: rgba(251,191,36,0.12);
+      border: 1.5px solid rgba(251,191,36,0.35);
+      padding: 9px 18px;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .btn-nav:hover {
+      background: rgba(251,191,36,0.25);
+      border-color: rgba(251,191,36,0.6);
+      transform: translateY(-2px);
+    }
+
+    /* ===== MAIN CONTENT ===== */
+    main {
+      margin-top: 0;
+      padding-bottom: 0;
+    }
+
+    /* ===== HERO SECTION ===== */
+    .hero {
+      height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: center;
+      padding: 0 40px;
+      position: relative;
+      overflow: hidden;
+      margin-top: 60px;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: url('assets/ciudad.png');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      z-index: 0;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(15,23,41,0.4) 0%, rgba(15,23,41,0.25) 50%, rgba(15,23,41,0.4) 100%);
+      z-index: 1;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 600px;
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--accent-gold);
+      background: rgba(251,191,36,0.12);
+      border: 1px solid rgba(251,191,36,0.3);
+      padding: 7px 14px;
+      border-radius: 6px;
+      margin-bottom: 18px;
+      animation: slideUp 0.7s ease-out;
+    }
+
+    .hero h1 {
+      font-family: "Syne", sans-serif;
+      font-size: 2.4rem;
+      font-weight: 800;
+      line-height: 1.15;
+      margin-bottom: 14px;
+      letter-spacing: -0.02em;
+      animation: slideUp 0.7s ease-out 0.1s both;
+    }
+
+    .hero h1 .highlight {
+      background: linear-gradient(135deg, var(--primary-blue), var(--accent-gold));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero p {
+      font-size: 1rem;
+      color: var(--text-light);
+      line-height: 1.8;
+      margin-bottom: 28px;
+      font-weight: 300;
+      animation: slideUp 0.7s ease-out 0.2s both;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      animation: slideUp 0.7s ease-out 0.3s both;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: #fff;
+      background: rgba(251,191,36,0.12);
+      border: 1.5px solid rgba(251,191,36,0.35);
+      backdrop-filter: blur(8px);
+      padding: 13px 28px;
+      border-radius: 10px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-primary:hover {
+      background: rgba(251,191,36,0.25);
+      border-color: rgba(251,191,36,0.6);
+      transform: translateY(-3px);
+    }
+
+    .btn-plan {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 700;
+      font-size: 0.8rem;
+      color: #fff;
+      background: rgba(37,99,235,0.15);
+      border: 1.5px solid rgba(37,99,235,0.35);
+      padding: 9px 16px;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .btn-plan:hover {
+      background: rgba(37,99,235,0.3);
+      border-color: rgba(37,99,235,0.6);
+      transform: translateY(-2px);
+    }
+
+    .btn-hero-plan {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: #fff;
+      background: rgba(37,99,235,0.15);
+      border: 1.5px solid rgba(37,99,235,0.35);
+      backdrop-filter: blur(8px);
+      padding: 13px 28px;
+      border-radius: 10px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+    }
+
+    .btn-hero-plan:hover {
+      background: rgba(37,99,235,0.3);
+      border-color: rgba(37,99,235,0.6);
+      transform: translateY(-3px);
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: var(--accent-gold);
+      background: rgba(251,191,36,0.1);
+      border: 1.5px solid rgba(251,191,36,0.3);
+      padding: 11px 24px;
+      border-radius: 10px;
+      backdrop-filter: blur(8px);
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(251,191,36,0.2);
+      border-color: var(--accent-gold);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(251,191,36,0.15);
+    }
+
+    /* ===== HERO VISUAL - LOGO ===== */
+    .hero-visual {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      animation: floatIn 1s ease-out;
+    }
+
+    .hero-logo {
+      max-width: 100%;
+      height: auto;
+      max-height: 500px;
+      filter: drop-shadow(0 20px 80px rgba(0,0,0,0.6)) drop-shadow(0 0 60px rgba(37,99,235,0.15));
+      animation: float 6s ease-in-out infinite;
+      border-radius: 20px;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-30px); }
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(25px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes floatIn {
+      from {
+        opacity: 0;
+        transform: scale(0.9) translateX(30px);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1) translateX(0);
+      }
+    }
+
+    /* ===== FEATURES SECTION ===== */
+    .features {
+      padding: 80px 40px;
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .features::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: url('assets/plaza.png');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      z-index: 0;
+    }
+
+    .features::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(15,23,41,0.4) 0%, rgba(15,23,41,0.25) 50%, rgba(15,23,41,0.4) 100%);
+      z-index: 1;
+    }
+
+    .features-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+
+    .features-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 40px;
+      align-items: center;
+    }
+
+    .features-left, .features-right {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .features-center {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .app-phone {
+      max-width: 110%;
+      height: auto;
+      max-height: 600px;
+      border-radius: 40px;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.5), 0 0 60px rgba(37,99,235,0.2);
+      animation: phoneFloat 5s ease-in-out infinite;
+    }
+
+    @keyframes phoneFloat {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-20px); }
+    }
+
+    .feature-card {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(37,99,235,0.25);
+      border-radius: 12px;
+      padding: 18px;
+      backdrop-filter: blur(10px);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--accent-gold), transparent);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.5s ease;
+    }
+
+    .feature-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .feature-card:hover {
+      background: rgba(37,99,235,0.12);
+      border-color: var(--primary-blue);
+      transform: translateY(-6px);
+      box-shadow: 0 20px 40px rgba(37,99,235,0.2);
+    }
+
+    .feature-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, rgba(251,191,36,0.2), rgba(37,99,235,0.1));
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      margin-bottom: 10px;
+      transition: all 0.3s ease;
+    }
+
+    .feature-card:hover .feature-icon {
+      transform: scale(1.15) rotate(5deg);
+    }
+
+    .feature-icon i {
+      background: linear-gradient(135deg, var(--accent-gold), var(--primary-blue));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .feature-card h3 {
+      font-size: 0.9rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+      color: #fff;
+    }
+
+    .feature-card p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+      font-weight: 300;
+    }
+
+    /* ===== COLLAGE SECTION ===== */
+    .collage-section {
+      padding: 40px;
+      background: #0F1729;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .collage-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .collage-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .collage-item {
+      position: relative;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid rgba(37,99,235,0.15);
+      aspect-ratio: 9/12;
+      animation: galleryFadeIn 0.8s ease-out forwards;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .collage-item:nth-child(1) { animation-delay: 0.1s; }
+    .collage-item:nth-child(2) { animation-delay: 0.2s; }
+    .collage-item:nth-child(3) { animation-delay: 0.3s; }
+
+    @keyframes galleryFadeIn {
+      from { opacity: 0; transform: translateY(40px) scale(0.95); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .collage-item:hover {
+      border-color: rgba(37,99,235,0.4);
+      transform: translateY(-12px) scale(1.02);
+      box-shadow: 0 20px 60px rgba(37,99,235,0.2);
+    }
+
+    .collage-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s ease;
+    }
+
+    .collage-item:hover img {
+      transform: scale(1.08);
+    }
+
+    .collage-text {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 20px;
+      background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.85) 100%);
+      z-index: 2;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .collage-item:hover .collage-text {
+      opacity: 1;
+    }
+
+    .collage-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #FBBF24;
+      margin-bottom: 4px;
+      transform: translateY(20px);
+      transition: transform 0.4s ease 0.1s;
+    }
+
+    .collage-item:hover .collage-title {
+      transform: translateY(0);
+    }
+
+    .collage-desc {
+      font-size: 0.82rem;
+      color: #D1D5DB;
+      line-height: 1.5;
+      transform: translateY(20px);
+      transition: transform 0.4s ease 0.12s;
+    }
+
+    .collage-item:hover .collage-desc {
+      transform: translateY(0);
+    }
+
+    /* ===== FAQ SECTION ===== */
+    .faq-section {
+      padding: 60px 40px;
+      background: rgba(255,255,255,0.02);
+      border-top: 1px solid rgba(255,255,255,0.05);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .faq-container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .faq-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .faq-header h2 {
+      font-family: "Syne", sans-serif;
+      font-size: 2.2rem;
+      font-weight: 800;
+      margin-bottom: 8px;
+      letter-spacing: -0.02em;
+    }
+
+    .faq-header h2 .highlight {
+      color: var(--accent-gold);
+    }
+
+    .faq-box {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .faq-item {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(37,99,235,0.15);
+      border-radius: 10px;
+      overflow: hidden;
+      backdrop-filter: blur(10px);
+      transition: all 0.4s ease;
+      animation: slideUp 0.6s ease-out forwards;
+      opacity: 0;
+    }
+
+    .faq-item:nth-child(1) { animation-delay: 0.05s; }
+    .faq-item:nth-child(2) { animation-delay: 0.1s; }
+    .faq-item:nth-child(3) { animation-delay: 0.15s; }
+    .faq-item:nth-child(4) { animation-delay: 0.2s; }
+    .faq-item:nth-child(5) { animation-delay: 0.25s; }
+    .faq-item:nth-child(6) { animation-delay: 0.3s; }
+
+    .faq-item:hover {
+      background: rgba(37,99,235,0.1);
+      border-color: rgba(37,99,235,0.3);
+      transform: translateX(6px);
+      box-shadow: 0 12px 30px rgba(37,99,235,0.15);
+    }
+
+    .faq-q {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 18px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .faq-q i {
+      font-size: 0.7rem;
+      color: #6B7280;
+      transition: all 0.4s ease;
+      min-width: 16px;
+    }
+
+    .faq-item.open .faq-q i {
+      transform: rotate(180deg);
+      color: var(--accent-gold);
+    }
+
+    .faq-item.open .faq-q {
+      color: var(--accent-gold);
+      background: rgba(37,99,235,0.08);
+    }
+
+    .faq-a {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease, padding 0.4s ease;
+      padding: 0 18px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      font-weight: 300;
+    }
+
+    .faq-item.open .faq-a {
+      max-height: 320px;
+      padding: 0 18px 12px;
+    }
+
+    /* ===== CONTACT & SOCIAL SECTION ===== */
+    .contact-section {
+      padding: 60px 40px;
+      background: linear-gradient(135deg, rgba(37,99,235,0.12) 0%, rgba(15,23,41,0.3) 100%);
+      border-top: 1px solid rgba(255,255,255,0.05);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .contact-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .contact-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .contact-header h2 {
+      font-family: "Syne", sans-serif;
+      font-size: 2.2rem;
+      font-weight: 800;
+      margin-bottom: 10px;
+      letter-spacing: -0.02em;
+    }
+
+    .contact-header h2 .highlight {
+      color: var(--accent-gold);
+    }
+
+    .contact-header p {
+      font-size: 1rem;
+      color: var(--text-light);
+      font-weight: 300;
+      line-height: 1.7;
+    }
+
+                .contact-grid {
+          display: flex;
+          flex-direction: column;
+          gap: 40px;
+          margin-bottom: 30px;
+    }
+
+    .testimonials-col h3 {
+      font-family: "Syne", sans-serif;
+      font-size: 1.5rem;
+      font-weight: 800;
+      margin-bottom: 24px;
+      color: var(--accent-gold);
+    }
+
+    .testimonial-card {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(37,99,235,0.15);
+      border-radius: 10px;
+      padding: 18px;
+      backdrop-filter: blur(10px);
+      margin-bottom: 12px;
+      transition: all 0.4s ease;
+      animation: slideUp 0.7s ease-out forwards;
+      opacity: 0;
+    }
+
+    .testimonial-card:nth-child(2) { animation-delay: 0.1s; }
+    .testimonial-card:nth-child(3) { animation-delay: 0.2s; }
+    .testimonial-card:nth-child(4) { animation-delay: 0.3s; }
+
+    .testimonial-card:hover {
+      background: rgba(37,99,235,0.12);
+      border-color: var(--accent-gold);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 30px rgba(37,99,235,0.1);
+    }
+
+    .stars {
+      color: var(--accent-gold);
+      font-size: 0.75rem;
+      letter-spacing: 1.5px;
+      margin-bottom: 6px;
+      display: block;
+    }
+
+    .testimonial-text {
+      font-size: 0.85rem;
+      color: var(--text-light);
+      line-height: 1.5;
+      margin-bottom: 8px;
+      font-style: italic;
+      font-weight: 300;
+    }
+
+    .testimonial-author {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--primary-blue);
+    }
+
+    .social-col h3 {
+      font-family: "Syne", sans-serif;
+      font-size: 1.5rem;
+      font-weight: 800;
+      margin-bottom: 24px;
+      color: var(--accent-gold);
+    }
+
+    .social-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .social-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(37,99,235,0.2);
+      padding: 12px 14px;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      text-align: center;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .social-link i {
+      font-size: 1rem;
+      color: var(--accent-gold);
+    }
+
+    .social-link:hover {
+      background: rgba(37,99,235,0.12);
+      border-color: var(--accent-gold);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(37,99,235,0.15);
+    }
+
+    .info-box {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(37,99,235,0.2);
+      border-radius: 10px;
+      padding: 16px;
+      text-align: center;
+    }
+
+    .info-box h4 {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+
+    .info-box p {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--accent-gold);
+    }
+
+    /* ===== CTA FINAL ===== */
+    .cta-final {
+      padding: 30px 20px;
+      text-align: center;
+      background: linear-gradient(135deg, rgba(37,99,235,0.12) 0%, rgba(251,191,36,0.08) 100%);
+      border-radius: 12px;
+    }
+
+    .cta-final h3 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .cta-final p {
+      color: var(--text-light);
+      margin-bottom: 16px;
+      font-weight: 300;
+      font-size: 0.9rem;
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      padding: 30px 40px;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      background: rgba(15, 23, 41, 0.5);
+      text-align: center;
+    }
+
+    footer p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    footer a {
+      color: var(--accent-gold);
+      transition: color 0.3s ease;
+    }
+
+    footer a:hover {
+      color: var(--primary-blue);
+    }
+
+    /* ===== MODAL PLAN ===== */
+    .plan-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(8px);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .plan-overlay.active {
+      display: flex;
+    }
+
+    .plan-modal {
+      background: #1a2332;
+      border: 1px solid rgba(37,99,235,0.3);
+      border-radius: 20px;
+      padding: 36px;
+      max-width: 480px;
+      width: 90%;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+      animation: modalIn 0.3s ease-out;
+    }
+
+    @keyframes modalIn {
+      from { opacity: 0; transform: scale(0.95) translateY(20px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    .plan-modal h2 {
+      font-family: "Syne", sans-serif;
+      font-size: 1.5rem;
+      font-weight: 800;
+      margin-bottom: 4px;
+      letter-spacing: -0.02em;
+    }
+
+    .plan-modal h2 .highlight {
+      color: var(--accent-gold);
+    }
+
+    .plan-modal .plan-sub {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      margin-bottom: 24px;
+    }
+
+    .plan-close {
+      position: absolute;
+      top: 16px;
+      right: 20px;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.5rem;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+
+    .plan-close:hover {
+      color: #fff;
+    }
+
+    .plan-modal .fg {
+      margin-bottom: 14px;
+    }
+
+    .plan-modal .fg label {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text-light);
+      margin-bottom: 5px;
+    }
+
+    .plan-modal .fg input,
+    .plan-modal .fg select {
+      width: 100%;
+      padding: 11px 14px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      background: rgba(255,255,255,0.06);
+      color: #fff;
+      font-size: 0.9rem;
+      font-family: "Inter", sans-serif;
+      outline: none;
+      transition: border 0.3s;
+    }
+
+    .plan-modal .fg input:focus,
+    .plan-modal .fg select:focus {
+      border-color: var(--primary-blue);
+    }
+
+    .plan-modal .fg input::placeholder {
+      color: var(--text-muted);
+    }
+
+    .plan-total-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 0;
+      border-top: 1px solid var(--border-color);
+      margin-top: 4px;
+      margin-bottom: 18px;
+    }
+
+    .plan-total-row span:first-child {
+      font-size: 0.9rem;
+      color: var(--text-light);
+    }
+
+    .plan-total-row .plan-price {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--accent-gold);
+    }
+
+    .plan-modal .btn-submit-plan {
+      width: 100%;
+      padding: 14px;
+      border-radius: 10px;
+      border: none;
+      background: linear-gradient(135deg, var(--accent-gold), var(--accent-gold-dark));
+      color: #0F1729;
+      font-weight: 800;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .plan-modal .btn-submit-plan:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(251,191,36,0.3);
+    }
+
+    .plan-modal .btn-submit-plan:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 1024px) {
+      .hero {
+        grid-template-columns: 1fr;
+        padding: 40px 30px;
+        gap: 30px;
+      }
+
+      .features-inner {
+        grid-template-columns: 1fr;
+      }
+
+      .collage-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+            .contact-grid {
+        flex-direction: column;
+      }
+
+      .hero h1 {
+        font-size: 2.2rem;
+      }
+
+      .features { padding: 60px 30px; }
+      .collage-section { padding: 60px 30px; }
+      .faq-section { padding: 60px 30px; }
+      .contact-section { padding: 60px 30px; }
+    }
+
+    /* ===== TABS TÉRMINOS MODAL ===== */
+    .terms-tabs {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border-color);
+    }
+    .terms-tab-btn {
+      background: none;
+      border: 1px solid rgba(255,255,255,0.1);
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: "Inter", sans-serif;
+    }
+    .terms-tab-btn.active {
+      background: rgba(37,99,235,0.2);
+      border-color: rgba(37,99,235,0.4);
+      color: #fff;
+    }
+    .terms-tab-btn:hover:not(.active) {
+      background: rgba(255,255,255,0.05);
+      color: var(--text-light);
+    }
+    .terms-tab-pane { display: none; }
+    .terms-tab-pane.active { display: block; }
+    .terms-scroll {
+      max-height: 54vh;
+      overflow-y: auto;
+      padding-right: 8px;
+      font-size: 0.81rem;
+      color: var(--text-light);
+      line-height: 1.75;
+      font-weight: 300;
+    }
+    .terms-scroll h3 {
+      font-size: 0.86rem;
+      font-weight: 700;
+      color: var(--accent-gold);
+      margin: 16px 0 5px;
+      font-family: "Syne", sans-serif;
+    }
+    .terms-scroll h3:first-child { margin-top: 0; }
+    .terms-scroll p { margin-bottom: 9px; }
+    .terms-scroll ul { margin: 5px 0 9px 18px; }
+    .terms-scroll ul li { margin-bottom: 3px; }
+    .terms-scroll strong { font-weight: 600; color: #fff; }
+    .terms-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 8px 0;
+      font-size: 0.76rem;
+    }
+    .terms-table th {
+      background: rgba(37,99,235,0.18);
+      color: var(--accent-gold);
+      padding: 6px 8px;
+      text-align: left;
+      font-weight: 600;
+      border: 1px solid rgba(37,99,235,0.3);
+    }
+    .terms-table td {
+      padding: 5px 8px;
+      border: 1px solid rgba(255,255,255,0.07);
+      color: var(--text-light);
+      vertical-align: top;
+    }
+    .terms-table tr:nth-child(even) td { background: rgba(255,255,255,0.03); }
+    .terms-version {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+      padding: 6px 10px;
+      background: rgba(255,255,255,0.04);
+      border-radius: 6px;
+      border-left: 3px solid rgba(37,99,235,0.4);
+    }
+
+    /* ===== PLAN MODAL - DOS PASOS ===== */
+    .plan-step.hidden { display: none; }
+    .step-indicator {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 18px;
+    }
+    .step-dot {
+      width: 24px; height: 24px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.7rem; font-weight: 700;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: var(--text-muted);
+      flex-shrink: 0;
+    }
+    .step-dot.active {
+      background: rgba(37,99,235,0.25);
+      border-color: var(--primary-blue);
+      color: #fff;
+    }
+    .step-dot.done {
+      background: rgba(37,99,235,0.12);
+      border-color: rgba(37,99,235,0.3);
+      color: var(--primary-blue);
+    }
+    .step-line { flex: 1; height: 1px; background: rgba(255,255,255,0.08); }
+    .step-label {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+    .plan-sum-title {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--accent-gold);
+      margin-bottom: 8px;
+    }
+    .plan-sum-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 12px;
+      font-size: 0.79rem;
+    }
+    .plan-sum-table td {
+      padding: 7px 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      vertical-align: top;
+    }
+    .plan-sum-table td:first-child {
+      color: var(--text-muted);
+      font-weight: 600;
+      width: 42%;
+    }
+    .plan-sum-table td:last-child { color: #fff; font-weight: 500; }
+    .plan-sum-table tr:last-child td { border-bottom: none; }
+    .plan-total-box {
+      background: rgba(37,99,235,0.1);
+      border: 1px solid rgba(37,99,235,0.25);
+      border-radius: 8px;
+      padding: 11px 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .plan-total-box span:first-child {
+      font-size: 0.84rem;
+      color: var(--text-light);
+      font-weight: 600;
+    }
+    .plan-total-box .total-amt {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: var(--accent-gold);
+    }
+    .notices-area { margin-bottom: 12px; }
+    .notice-item {
+      border-left: 3px solid rgba(37,99,235,0.5);
+      background: rgba(255,255,255,0.03);
+      border-radius: 0 7px 7px 0;
+      padding: 8px 11px;
+      margin-bottom: 7px;
+      font-size: 0.76rem;
+      color: var(--text-light);
+      line-height: 1.5;
+      font-weight: 300;
+    }
+    .notice-item strong {
+      display: block;
+      color: #fff;
+      font-weight: 600;
+      font-size: 0.78rem;
+      margin-bottom: 2px;
+    }
+    .notice-item.gold { border-left-color: rgba(251,191,36,0.5); }
+    .accept-row {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      padding: 11px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 8px;
+      margin-bottom: 14px;
+    }
+    .accept-row input[type="checkbox"] {
+      width: 16px; height: 16px;
+      accent-color: var(--primary-blue);
+      cursor: pointer;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .accept-row label {
+      font-size: 0.75rem;
+      color: var(--text-light);
+      line-height: 1.5;
+      cursor: pointer;
+    }
+    .accept-row label a { color: var(--accent-gold); text-decoration: underline; }
+    .btn-back {
+      background: none;
+      border: 1px solid rgba(255,255,255,0.1);
+      color: var(--text-muted);
+      font-size: 0.77rem;
+      padding: 6px 12px;
+      border-radius: 7px;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: "Inter", sans-serif;
+      margin-bottom: 12px;
+    }
+    .btn-back:hover { background: rgba(255,255,255,0.05); color: #fff; }
+    .wompi-note {
+      text-align: center;
+      font-size: 0.69rem;
+      color: var(--text-muted);
+      margin-top: 9px;
+      line-height: 1.5;
+    }
+    .wompi-note a { color: var(--accent-gold); }
+
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .paypal-btn-container {
+      min-height: 48px;
+      margin-top: 4px;
+    }
+
+    .pago-toast {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: linear-gradient(135deg, #1a2a4a, #0f1729);
+      border: 1px solid rgba(37,99,235,0.4);
+      border-radius: 12px;
+      padding: 18px 24px;
+      color: #fff;
+      font-size: 0.88rem;
+      text-align: center;
+      max-width: 420px;
+      width: calc(100% - 40px);
+      z-index: 9999;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s, transform 0.4s;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+      line-height: 1.6;
+    }
+    .pago-toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+      pointer-events: auto;
+    }
+    .pago-toast strong { color: var(--accent-gold); }
+    .pago-toast small { font-size: 0.78rem; color: var(--text-muted); }
+
+    @media (max-width: 768px) {
+      header {
+        padding: 12px 20px;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      nav {
+        gap: 12px;
+        font-size: 0.8rem;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .hero {
+        grid-template-columns: 1fr;
+        padding: 30px 20px;
+        gap: 20px;
+      }
+
+      .hero h1 {
+        font-size: 2rem;
+      }
+
+      .hero p {
+        font-size: 0.9rem;
+      }
+
+      .hero-cta {
+        flex-direction: column;
+        width: 100%;
+      }
+
+      .hero-cta > * {
+        width: 100%;
+        text-align: center;
+      }
+
+      .collage-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .collage-item {
+        aspect-ratio: 16/9;
+      }
+
+            .contact-grid {
+        flex-direction: column;
+      }
+
+      .social-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .testimonials-header h2,
+      .gallery-header h2,
+      .faq-header h2,
+      .contact-header h2,
+      .cta h2 {
+        font-size: 1.8rem;
+      }
+
+      .testimonials-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .plan-modal {
+        padding: 24px 20px;
+        border-radius: 14px;
+        width: 95%;
+        max-height: 95vh;
+      }
+
+      .plan-modal h2 { font-size: 1.3rem; }
+
+      .plan-sum-table { font-size: 0.76rem; }
+
+      .notices-area { gap: 8px; }
+      .notice-item { font-size: 0.72rem; }
+
+      .terms-scroll { max-height: 45vh; }
+    }
+
+    @media (max-width: 480px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+      nav {
+        gap: 8px;
+        font-size: 0.76rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="logo-header">
+      <a href="index.html"><img src="assets/logoagora2trans.png" alt="Ágora Software" /></a>
+      <img src="assets/logotrans.png" alt="LynxGuard" />
+      <span><span class="lynx">Lynx</span><span class="guard">Guard</span></span>
+    </div>
+    <nav>
+      <a href="#features">Características</a>
+      <a href="#faq">FAQ</a>
+      <a href="#contact">Contacto</a>
+      <button class="btn-nav btn-apk-dl"><i class="fas fa-download"></i> APK</button>
+      <button class="btn-plan" id="btnPlanNav"><i class="fas fa-credit-card"></i> Contratar plan</button>
+    </nav>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main>
+    <!-- HERO SECTION CON CIUDAD DE FONDO -->
+    <section class="hero">
+      <div class="hero-content">
+        <div class="hero-tag">
+          Walkie Talkie - Push-To-Talk
+        </div>
+        <h1><span class="highlight">PTT Profesional</span>, comunicación instantánea y segura para operaciones a gran escala</h1>
+        <p>La solución definitiva en radiocomunicaciones blindadas y control operativo de alta seguridad.</p>
+        <div class="hero-cta">
+          <button class="btn-primary btn-apk-dl">
+            <i class="fas fa-download"></i> Descargar APK
+          </button>
+          <button class="btn-hero-plan" id="btnPlanHero">
+            <i class="fas fa-credit-card"></i> Contratar plan &rarr;
+          </button>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <img src="assets/logotrans.png" alt="LynxGuard Logo" class="hero-logo" />
+      </div>
+    </section>
+
+    <!-- FEATURES SECTION CON PLAZA DE FONDO E IMAGEN LOGIN -->
+    <section class="features" id="features">
+      <div class="features-container">
+        <div class="features-inner">
+          <!-- LADO IZQUIERDO -->
+          <div class="features-left">
+            <div class="feature-card">
+              <div class="feature-icon">
+                <i class="fas fa-bolt"></i>
+              </div>
+              <h3>Push to Talk Instantáneo</h3>
+              <p>Presiona, habla y comunica sin retrasos. Respuesta inmediata.</p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">
+                <i class="fas fa-lock"></i>
+              </div>
+              <h3>Blindado con Encriptación</h3>
+              <p>Cifrado extremo a extremo. Comunicaciones privadas y seguras.</p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">
+                <i class="fas fa-users"></i>
+              </div>
+              <h3>Grupos Ilimitados</h3>
+              <p>Organiza equipos sin límites. Coordina cualquier tamaño.</p>
+            </div>
+          </div>
+
+          <!-- CENTRO - IMAGEN LOGIN -->
+          <div class="features-center">
+            <img src="assets/iniciologintrans3.png" alt="LynxGuard App" class="app-phone" />
+          </div>
+
+          <!-- LADO DERECHO -->
+          <div class="features-right">
+            <div class="feature-card">
+              <div class="feature-icon">
+                <i class="fas fa-bolt"></i>
+              </div>
+              <h3>Latencia Ultra Baja</h3>
+              <p>Entre 3 y 5 ms de latencia. Comunicación en tiempo real, sin retardos ni cortes.</p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">
+                <i class="fas fa-mobile-alt"></i>
+              </div>
+              <h3>Audio HD de Alta Calidad</h3>
+              <p>Voz nítida y clara gracias a nuestro códec de audio optimizado. Sin distorsiones ni ruido de fondo.</p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">
+                <i class="fas fa-crown"></i>
+              </div>
+              <h3>Control Administrativo</h3>
+              <p>Roles, permisos y auditoría. Gestión completa de operaciones.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- COLLAGE SECTION - IMÁGENES CON TEXTOS A MEDIA PANTALLA -->
+    <section class="collage-section" id="gallery">
+      <div class="collage-container">
+        <div class="collage-grid">
+          <div class="collage-item">
+            <img src="assets/inicio_lynxguard.png" alt="Pantalla Principal" />
+            <div class="collage-text">
+              <div class="collage-title">Pantalla Principal</div>
+              <div class="collage-desc">Interfaz intuitiva y accesible para operadores bajo presión.</div>
+            </div>
+          </div>
+          <div class="collage-item">
+            <img src="assets/uso_construccion.png" alt="Canales de Voz" />
+            <div class="collage-text">
+              <div class="collage-title">Canales de Voz</div>
+              <div class="collage-desc">Comunicación por canales de voz en tiempo real con solo presionar un botón.</div>
+            </div>
+          </div>
+          <div class="collage-item">
+            <img src="assets/uso_guarda.png" alt="Cobertura Total" />
+            <div class="collage-text">
+              <div class="collage-title">Cobertura Total</div>
+              <div class="collage-desc">Funciona en 4G, 5G y WiFi. Tus operaciones siempre conectadas sin importar dónde estés.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ SECTION -->
+    <section class="faq-section" id="faq">
+      <div class="faq-container">
+        <div class="faq-header">
+          <h2>Preguntas <span class="highlight">frecuentes</span></h2>
+        </div>
+        <div class="faq-box">
+          <div class="faq-item open">
+            <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+              <span>¿Cómo contrato el servicio?</span>
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-a">Haz clic en "Contratar plan", completa el formulario con los datos de tu empresa y la cantidad de cuentas que necesitas. Luego realiza el pago de forma segura a través de PayPal y obtendrás acceso inmediato.</div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+              <span>¿Cuánto cuesta cada cuenta?</span>
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-a">Cada cuenta tiene un valor de $12.000/mes. Puedes contratar las que necesites y el total se calcula automáticamente antes de pagar.</div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+              <span>¿Cómo funciona el pago mensual?</span>
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-a">Pagas por las cuentas que contrataste. Cada mes recibirás un recordatorio para renovar tu plan. Si el pago no se recibe, las cuentas se suspenden hasta que se regularice.</div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+              <span>¿Puedo agregar o quitar cuentas después?</span>
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-a">Sí, puedes modificar la cantidad de cuentas. Al renovar tu plan, simplemente actualiza el número y paga solo por las que necesites.</div>
+          </div>
+                    <div class="faq-item">
+            <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+              <span>¿Cómo descargo la app?</span>
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-a">Puedes descargar el APK directamente desde el botón "Descargar APK" en esta página.</div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+              <span>¿Cómo funciona el límite de cuentas?</span>
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-a">No importa cuántas cuentas crees dentro de la app. Tú eliges cuáles activar manualmente hasta llegar al límite de las contratadas. Por ejemplo, si contratas 10 cuentas, puedes tener 30 creadas pero solo 10 activas. Las activas son las que cuentan.</div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+              <span>¿Para qué sectores es recomendado?</span>
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-a">Está diseñado para cualquier operación que requiera comunicación instantánea y segura.</div>
+          </div>
+        </div><!-- /.faq-box -->
+      </div><!-- /.faq-container -->
+    </section>
+
+    <!-- CONTACT SECTION -->
+    <section class="contact-section" id="contact">
+      <div class="contact-container">
+        <div class="contact-header">
+          <h2>Únete a <span class="highlight">LynxGuard</span></h2>
+          <p>Equipos de construcción, seguridad y logística ya usan LynxGuard para coordinarse en tiempo real. Descubre por qué.</p>
+        </div>
+
+        <div class="contact-grid">
+          <!-- TESTIMONIOS -->
+          <div class="testimonials-col">
+            <h3>Lo que dicen nuestros usuarios</h3>
+            <div class="testimonials-grid">
+              <div class="testimonial-card">
+                <div class="stars">★★★★★</div>
+                <p class="testimonial-text">"Es increíblemente sencilla. En 5 minutos todo el equipo estaba comunicado. Adiós a los radios antiguos."</p>
+                <div class="testimonial-author">Carlos M. — Capataz de Obra</div>
+              </div>
+              <div class="testimonial-card">
+                <div class="stars">★★★★★</div>
+                <p class="testimonial-text">"La mejor inversión que hemos hecho. Pagamos solo por las cuentas que usamos y la calidad es superior."</p>
+                <div class="testimonial-author">Laura G. — Jefa de Seguridad</div>
+              </div>
+              <div class="testimonial-card">
+                <div class="stars">★★★★★</div>
+                <p class="testimonial-text">"Probamos otras apps, pero ninguna tan rápida y liviana. Funciona perfecto incluso en equipos básicos."</p>
+                <div class="testimonial-author">Andrés R. — Supervisor Logística</div>
+              </div>
+              <div class="testimonial-card">
+                <div class="stars">★★★★★</div>
+                <p class="testimonial-text">"La app no se cae, no se traba. Comunicación clara y en tiempo real. Así deberían funcionar todas."</p>
+                <div class="testimonial-author">Mariana L. — Coordinadora de Eventos</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CONTACTO Y REDES -->
+          <div class="social-col">
+            <h3>Contáctanos</h3>
+            <div class="social-grid">
+              <a href="https://wa.me/573115568418" target="_blank" rel="noopener noreferrer" class="social-link">
+                <i class="fab fa-whatsapp"></i>
+                <span>WhatsApp</span>
+              </a>
+              <a href="mailto:lynxguard@agorasoftware.net" class="social-link">
+                <i class="fas fa-envelope"></i>
+                <span>lynxguard@agorasoftware.net</span>
+              </a>
+              <a href="mailto:contacto@agorasoftware.net" class="social-link">
+                <i class="fas fa-envelope"></i>
+                <span>contacto@agorasoftware.net</span>
+              </a>
+              <a href="https://agorasoftware.net" target="_blank" rel="noopener noreferrer" class="social-link">
+                <i class="fas fa-globe"></i>
+                <span>agorasoftware.net</span>
+              </a>
+              <a class="social-link" style="opacity:0.4;cursor:default;" aria-disabled="true">
+                <i class="fab fa-linkedin-in"></i>
+                <span>LinkedIn — Próximamente</span>
+              </a>
+              <a class="social-link" style="opacity:0.4;cursor:default;" aria-disabled="true">
+                <i class="fab fa-github"></i>
+                <span>GitHub — Próximamente</span>
+              </a>
+            </div>
+            <div class="info-box">
+              <h4>Desarrollado por</h4>
+              <p>Ágora Software · Colombia</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="cta-final">
+          <h3>¿Listo para comenzar?</h3>
+          <p>Descarga LynxGuard y transforma la comunicación de tu equipo desde hoy</p>
+          <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:4px;">
+            <button class="btn-primary btn-apk-dl">
+              <i class="fas fa-download"></i> Descargar APK
+            </button>
+            <button class="btn-hero-plan" id="btnPlanCTA" style="padding:13px 28px;">
+              <i class="fas fa-credit-card"></i> Contratar plan
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- MODAL CONTRATAR PLAN -->
+  <div class="plan-overlay" id="planOverlay">
+    <div class="plan-modal" style="position:relative;">
+      <button class="plan-close" id="planClose">&times;</button>
+
+      <!-- INDICADOR DE PASOS -->
+      <div class="step-indicator">
+        <div class="step-dot active" id="stepDot1">1</div>
+        <div class="step-line"></div>
+        <div class="step-dot" id="stepDot2">2</div>
+        <span class="step-label" id="stepLabel" style="margin-left:6px;">Datos del plan</span>
+      </div>
+
+      <!-- PASO 1: FORMULARIO -->
+      <div id="planStep1" class="plan-step">
+        <h2>Contratar <span class="highlight">LynxGuard</span></h2>
+        <p class="plan-sub">Registra tu empresa y configura tu plan mensual</p>
+        <form id="planForm">
+          <div class="fg">
+            <label for="planEmail">Correo electrónico</label>
+            <input type="email" id="planEmail" placeholder="admin@miempresa.com" required />
+          </div>
+          <div class="fg">
+            <label for="planPass">Contraseña</label>
+            <input type="password" id="planPass" placeholder="Mínimo 6 caracteres" minlength="6" required />
+          </div>
+          <div class="fg">
+            <label for="planPass2">Repetir contraseña</label>
+            <input type="password" id="planPass2" placeholder="Repite la contraseña" minlength="6" required />
+          </div>
+          <div class="fg">
+            <label for="planEmpresa">Nombre de la empresa</label>
+            <input type="text" id="planEmpresa" placeholder="Ej: Mi Empresa SAS" required />
+          </div>
+          <div class="fg">
+            <label for="planIdEmpresa">ID de la empresa (sin espacios)</label>
+            <input type="text" id="planIdEmpresa" placeholder="Ej: M1Empres4SAS2026" pattern="[^\s]+" required />
+            <p style="font-size:0.72rem;color:var(--text-muted);margin-top:4px;">Sin espacios. Puedes usar letras, números y mayúsculas.</p>
+          </div>
+          <div class="fg">
+            <label for="planCuentas">Número de cuentas (c/u $12.000/mes)</label>
+            <input type="number" id="planCuentas" min="1" max="999" value="10" required />
+          </div>
+          <div class="plan-total-row">
+            <span>Total mensual</span>
+            <span class="plan-price" id="planTotal">$120.000/mes</span>
+          </div>
+          <button type="submit" class="btn-submit-plan" id="btnRevisarPedido">Revisar pedido &rarr;</button>
+        </form>
+      </div>
+
+      <!-- PASO 2: RESUMEN Y ACEPTACIÓN -->
+      <div id="planStep2" class="plan-step hidden">
+        <h2>Resumen de tu <span class="highlight">plan</span></h2>
+        <p class="plan-sub">Revisa los detalles antes de continuar al pago</p>
+
+        <button class="btn-back" id="btnVolverStep1">&larr; Volver y editar</button>
+
+        <div class="plan-sum-title"><i class="fas fa-receipt" style="color:var(--primary-blue);"></i> Detalle del pedido</div>
+        <table class="plan-sum-table">
+          <tr><td>Servicio</td><td>LynxGuard — Plan mensual</td></tr>
+          <tr><td>Empresa</td><td id="sumEmpresa">—</td></tr>
+          <tr><td>ID de empresa</td><td id="sumId">—</td></tr>
+          <tr><td>Cuentas habilitadas</td><td id="sumCuentas">—</td></tr>
+          <tr><td>Precio por cuenta</td><td>$12.000 COP / mes</td></tr>
+          <tr><td>Período cubierto</td><td id="sumPeriodo">—</td></tr>
+          <tr><td>Procesador de pago</td><td>PayPal</td></tr>
+        </table>
+
+        <div class="plan-total-box">
+          <span>Total a pagar hoy</span>
+          <span class="total-amt" id="sumTotal">—</span>
+        </div>
+
+        <div class="notices-area">
+          <div class="notice-item">
+            <strong>Sobre el acceso al servicio</strong>
+            Una vez confirmado el pago, recibirás acceso a la plataforma. La primera cuenta registrada será asignada automáticamente como Líder. Solo estarán activas la cantidad de cuentas contratadas; las cuentas adicionales quedarán inhabilitadas automáticamente.
+          </div>
+          <div class="notice-item">
+            <strong>Sobre la renovación</strong>
+            Este plan <strong>no se renueva automáticamente</strong>. Al vencer el período, el servicio quedará suspendido para toda tu organización hasta que realices un nuevo pago manualmente. En cada renovación puedes ajustar el número de cuentas.
+          </div>
+          <div class="notice-item gold">
+            <strong>Sobre reembolsos</strong>
+            No se realizan reembolsos por períodos ya pagados. Si cancelas antes del vencimiento, el servicio permanecerá activo hasta la fecha de vencimiento pero no se devolverá el valor pagado.
+          </div>
+          <div class="notice-item gold">
+            <strong>Derecho de retracto (Ley 1480 de 2011)</strong>
+            El derecho de retracto no aplica una vez el acceso ha sido activado y el usuario ha hecho uso de la plataforma (Art. 47, Ley 1480 de 2011). Si el acceso aún no ha sido activado, puedes solicitar el retracto dentro de los 5 días hábiles siguientes al pago escribiendo a lynxguard@agorasoftware.net.
+          </div>
+          <div class="notice-item">
+            <strong>Sobre la suspensión por causa de Ágora Software</strong>
+            Si Ágora Software suspende el servicio por causa imputable a nuestra parte (falla técnica prolongada), se reconocerá una compensación proporcional a los días no prestados, descontable en la siguiente renovación.
+          </div>
+        </div>
+
+        <div class="accept-row">
+          <input type="checkbox" id="chkTerminos" />
+          <label for="chkTerminos">
+            He leído y acepto los <a href="#" id="linkTerminosStep2">Términos y Condiciones y la Política de Privacidad</a> de LynxGuard. Entiendo que al confirmar el pago autorizo el tratamiento de mis datos personales conforme a dicha política y acepto las condiciones del servicio descritas en este resumen. <strong>*</strong>
+          </label>
+        </div>
+
+        <div id="paypal-button-container" class="paypal-btn-container"></div>
+        <p class="wompi-note">
+          Pago procesado de forma segura por PayPal. Ágora Software no almacena datos de tarjeta.<br>
+          ¿Dudas? <a href="mailto:lynxguard@agorasoftware.net">lynxguard@agorasoftware.net</a> | +57 311 556 8418
+        </p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- MODAL DESCARGA APK -->
+  <div class="plan-overlay" id="descargarOverlay">
+    <div class="plan-modal" style="position:relative;max-width:480px;">
+      <button class="plan-close" id="descargarClose">&times;</button>
+      <h2>Antes de <span class="highlight">descargar</span></h2>
+      <p class="plan-sub">LynxGuard APK &mdash; Solo Android</p>
+
+      <div class="notices-area">
+        <div class="notice-item">
+          <strong>¿Para quién es LynxGuard?</strong>
+          Está destinado exclusivamente a equipos de trabajo empresariales. No está disponible para uso individual no empresarial.
+        </div>
+        <div class="notice-item">
+          <strong>Instalación desde fuente externa</strong>
+          Deberás habilitar "instalar desde fuentes desconocidas" en tu dispositivo. Ágora Software solo garantiza la integridad del APK descargado directamente desde este sitio oficial.
+        </div>
+        <div class="notice-item gold">
+          <strong>Requiere plan activo para funcionar</strong>
+          La app no funciona sin un plan contratado. Necesitas un ID de empresa y credenciales proporcionadas por el Líder de tu organización.
+        </div>
+        <div class="notice-item gold">
+          <strong>Comunicación complementaria</strong>
+          LynxGuard no debe ser el único medio de comunicación en situaciones de emergencia o riesgo para la vida. La disponibilidad depende de la conexión a Internet.
+        </div>
+      </div>
+
+      <p style="font-size:0.76rem;color:var(--text-muted);margin-bottom:12px;text-align:center;">
+        Consulta los documentos completos antes de aceptar:
+        <a href="#" id="linkTermDescargar" style="color:var(--accent-gold);text-decoration:underline;">Términos y Condiciones / Política de Privacidad &rarr;</a>
+      </p>
+
+      <div class="accept-row">
+        <input type="checkbox" id="chkDescargar" />
+        <label for="chkDescargar">
+          He leído y acepto los <a href="#" id="linkTermDescargar2">Términos y Condiciones y la Política de Privacidad</a> de LynxGuard. Entiendo que esta app es exclusivamente para uso empresarial y que su instalación requiere habilitar fuentes externas en mi dispositivo. <strong>*</strong>
+        </label>
+      </div>
+
+      <a href="assets/app-release.apk" id="btnDescargaConfirmada" class="btn-submit-plan" style="display:flex;align-items:center;justify-content:center;gap:10px;text-decoration:none;opacity:0.4;pointer-events:none;" download>
+        <i class="fas fa-download"></i> Aceptar y descargar APK
+      </a>
+      <p class="wompi-note" style="margin-top:10px;">Solo compatible con Android &middot; Versión actual</p>
+    </div>
+  </div>
+
+  <!-- MODAL TÉRMINOS Y CONDICIONES / POLÍTICA DE PRIVACIDAD -->
+  <div class="plan-overlay" id="terminosOverlay">
+    <div class="plan-modal" style="position:relative;max-width:600px;">
+      <button class="plan-close" id="terminosClose">&times;</button>
+      <h2>Documentos <span class="highlight">legales</span></h2>
+      <p class="plan-sub">LynxGuard — Versión 1.0 | Vigencia: 29 de mayo de 2026</p>
+
+      <div class="terms-tabs">
+        <button class="terms-tab-btn active" data-tab="tc">Términos y Condiciones</button>
+        <button class="terms-tab-btn" data-tab="pp">Política de Privacidad</button>
+      </div>
+
+      <!-- TAB: TÉRMINOS Y CONDICIONES -->
+      <div class="terms-tab-pane active" id="tabTC">
+        <div class="terms-scroll">
+          <div class="terms-version">Ágora Software · Colombia · lynxguard@agorasoftware.net · +57 311 556 8418 · agorasoftware.net</div>
+
+          <h3>1. Identificación del titular del servicio</h3>
+          <p>LynxGuard es un servicio digital ofrecido por <strong>Ágora Software</strong>, empresa domiciliada en Colombia. Contacto: lynxguard@agorasoftware.net | +57 311 556 8418 | https://agorasoftware.net</p>
+
+          <h3>2. Aceptación de los términos</h3>
+          <p>Al descargar, instalar o usar LynxGuard, usted acepta íntegramente estos Términos y Condiciones. Esta aceptación ocurre en el momento de la descarga del archivo APK desde https://agorasoftware.net/lynxguard, independientemente de si completa o no la instalación.</p>
+          <p>Si actúa en nombre de una organización, declara tener facultades para vincularla a estos términos. Si no acepta estos términos, no descargue ni use la aplicación.</p>
+
+          <h3>3. Descripción del servicio</h3>
+          <p>LynxGuard es una plataforma de comunicación empresarial en tiempo real que incluye:</p>
+          <ul>
+            <li>Comunicación por voz tipo Push-to-Talk (PTT / walkie-talkie digital)</li>
+            <li>Mensajería grupal con texto, audio e imágenes</li>
+            <li>Llamadas individuales entre usuarios</li>
+            <li>Administración de grupos, roles y jerarquías dentro de una organización</li>
+          </ul>
+          <p>El servicio está destinado a equipos de trabajo de empresas, organizaciones de seguridad, vigilancia y sectores afines. LynxGuard <strong>no está disponible para uso individual no empresarial</strong>.</p>
+
+          <h3>4. Distribución e instalación</h3>
+          <p><strong>4.1.</strong> LynxGuard se distribuye exclusivamente como archivo APK a través de https://agorasoftware.net/lynxguard. No se distribuye a través de tiendas de aplicaciones.</p>
+          <p><strong>4.2.</strong> La instalación puede requerir habilitar "instalar desde fuentes desconocidas" en el dispositivo. El usuario es responsable de habilitar esta opción y de los riesgos asociados.</p>
+          <p><strong>4.3.</strong> Ágora Software solo garantiza la integridad del APK descargado directamente desde el sitio oficial. No nos responsabilizamos de versiones distribuidas por fuentes no autorizadas.</p>
+
+          <h3>5. Contratación del plan y registro de empresa</h3>
+          <p><strong>5.1.</strong> LynxGuard no permite la creación de cuentas dentro de la aplicación. Para acceder es necesario contratar un plan en https://agorasoftware.net/lynxguard.</p>
+          <p><strong>5.2.</strong> Al contratar, el contratante proporciona: correo electrónico, contraseña, nombre de la empresa, ID de empresa (identificador único alfanumérico sin espacios, ej: M1EmpresaSAS2026), y número de cuentas a habilitar.</p>
+          <p><strong>5.3.</strong> La primera cuenta creada al contratar se asigna automáticamente como <strong>Líder</strong> de la empresa, con control total sobre la organización en la plataforma.</p>
+
+          <h3>6. Creación y gestión de cuentas por el Líder</h3>
+          <p><strong>6.1.</strong> El Líder puede crear cuentas para los miembros de su organización directamente desde la app, y puede delegar esta capacidad a otros usuarios.</p>
+          <p><strong>6.2.</strong> El Líder puede crear más cuentas que las contratadas; sin embargo, solo estarán activas la cantidad contratada. Las cuentas excedentes quedarán inhabilitadas automáticamente.</p>
+          <p><strong>6.3.</strong> El Líder es responsable de distribuir las credenciales a los usuarios de su organización y tiene acceso a las credenciales de dichos usuarios. Ágora Software no es responsable del uso que el Líder haga de esas credenciales.</p>
+          <p><strong>6.4.</strong> Los usuarios finales acceden con las credenciales proporcionadas por su Líder y, al hacerlo, aceptan igualmente estos Términos.</p>
+
+          <h3>7. Precios, facturación y renovación</h3>
+          <p><strong>7.1.</strong> El precio del servicio es de <strong>$12.000 COP</strong> por cuenta de usuario habilitada al mes.</p>
+          <p><strong>7.2.</strong> El cobro <strong>no es automático</strong>. El Líder debe renovar y pagar manualmente cada mes. En cada renovación puede ajustar el número de cuentas.</p>
+          <p><strong>7.3.</strong> Si al finalizar el período no se recibe el pago, el servicio quedará suspendido para toda la empresa hasta que se realice el pago. No se eliminan los datos durante la suspensión.</p>
+          <p><strong>7.4.</strong> Ágora Software se reserva el derecho de modificar tarifas notificando al Líder con al menos 30 días de anticipación por correo electrónico. El uso continuado constituye aceptación del nuevo precio.</p>
+          <p><strong>7.5.</strong> No se realizan reembolsos por períodos ya facturados, salvo que la suspensión sea imputable exclusivamente a Ágora Software.</p>
+
+          <h3>8. Uso aceptable</h3>
+          <p>El Usuario se compromete a usar LynxGuard únicamente para comunicaciones legítimas de su actividad laboral. Está estrictamente prohibido:</p>
+          <ul>
+            <li>a) Transmitir contenido ilegal, difamatorio, obsceno, amenazante, discriminatorio o que incite a la violencia.</li>
+            <li>b) Usar el servicio para actividades que contravengan las leyes de Colombia o del país desde donde se use.</li>
+            <li>c) Interferir con la seguridad, integridad o disponibilidad del sistema.</li>
+            <li>d) Realizar ingeniería inversa, descompilar o intentar acceder al código fuente.</li>
+            <li>e) Redistribuir el APK de LynxGuard por canales no autorizados.</li>
+            <li>f) Recopilar datos de otros usuarios sin su consentimiento.</li>
+          </ul>
+
+          <h3>9. Responsabilidades del Líder</h3>
+          <p><strong>9.1.</strong> El Líder asume plena responsabilidad por:</p>
+          <ul>
+            <li>El uso que hagan de la plataforma todos los usuarios de su organización</li>
+            <li>La correcta asignación, custodia y distribución de credenciales</li>
+            <li>Garantizar que los usuarios conozcan y acepten estos Términos antes de usar la app</li>
+            <li>Eliminar oportunamente las cuentas de personas que dejen de pertenecer a su organización</li>
+          </ul>
+          <p><strong>9.2.</strong> Ágora Software no media en conflictos internos entre el Líder y los usuarios de su organización.</p>
+
+          <h3>10. Limitación de responsabilidad y advertencias críticas</h3>
+          <p><strong>10.1.</strong> LynxGuard es una herramienta de comunicación complementaria. <strong>No debe ser el único medio de comunicación en situaciones de emergencia o riesgo para la vida.</strong> La disponibilidad depende de la conectividad a Internet y de infraestructura de terceros fuera del control de Ágora Software.</p>
+          <p><strong>10.2.</strong> Ágora Software no garantiza disponibilidad ininterrumpida. Pueden presentarse interrupciones por mantenimiento, fallas técnicas o causas de fuerza mayor.</p>
+          <p><strong>10.3.</strong> Ágora Software no es responsable por: pérdidas de datos por fallos técnicos; contenidos transmitidos por usuarios; decisiones operativas tomadas con base en comunicaciones de la app; daños por APKs de fuentes no oficiales; conflictos derivados de la gestión de credenciales; fallos por mala cobertura o dispositivos incompatibles.</p>
+          <p><strong>10.4.</strong> En los casos en que aplique responsabilidad legal de Ágora Software, esta se limita al valor pagado en los tres (3) meses anteriores al evento que generó el daño.</p>
+
+          <h3>11. Propiedad intelectual</h3>
+          <p><strong>11.1.</strong> LynxGuard, su diseño, logotipos, código fuente, interfaces y tecnología son propiedad exclusiva de Ágora Software y están protegidos por las leyes de propiedad intelectual de Colombia.</p>
+          <p><strong>11.2.</strong> El acceso al servicio no transfiere ningún derecho de propiedad sobre ningún componente de LynxGuard.</p>
+          <p><strong>11.3.</strong> Los contenidos generados por los usuarios son propiedad de quien los genera. El usuario otorga a Ágora Software una licencia limitada para almacenarlos y transmitirlos exclusivamente con el fin de prestar el servicio.</p>
+          <p><strong>11.4.</strong> Está prohibido reproducir, distribuir, modificar o crear obras derivadas de cualquier elemento de LynxGuard sin autorización escrita de Ágora Software.</p>
+
+          <h3>12. Cuentas de soporte interno</h3>
+          <p>Ágora Software puede acceder técnicamente a los datos de las empresas clientes a través de cuentas de soporte interno, únicamente con fines de asistencia técnica o mantenimiento. Cada vez que esto ocurra, el Líder recibirá una notificación dentro de la aplicación.</p>
+
+          <h3>13. Suspensión y cancelación</h3>
+          <p><strong>13.1.</strong> Ágora Software puede suspender o cancelar el acceso cuando: se detecte uso fraudulento o contrario a estos Términos; no se reciba el pago al vencer el período; exista orden judicial o requerimiento de autoridad competente; se detecte riesgo para la seguridad del sistema.</p>
+          <p><strong>13.2.</strong> La suspensión por falta de pago es reversible: el acceso se restaura al completar el pago, sin pérdida de datos.</p>
+          <p><strong>13.3.</strong> El Líder puede solicitar la cancelación definitiva contactando a lynxguard@agorasoftware.net. Tras la cancelación, los datos serán eliminados en un plazo máximo de 30 días.</p>
+
+          <h3>14. Modificaciones</h3>
+          <p>Ágora Software puede modificar estos Términos notificando al Líder con al menos 15 días de anticipación por correo electrónico. El uso continuado tras dicha notificación constituye aceptación.</p>
+
+          <h3>15. Legislación aplicable</h3>
+          <p>Estos Términos se rigen por las leyes de la República de Colombia. Las controversias se resolverán ante los tribunales competentes de Colombia. Para usuarios fuera de Colombia, la ley colombiana aplica como ley del servicio, sin perjuicio de derechos irrenunciables reconocidos en el país del usuario.</p>
+
+          <h3>16. Contacto</h3>
+          <p>Ágora Software | lynxguard@agorasoftware.net | +57 311 556 8418 | https://agorasoftware.net</p>
+        </div>
+      </div>
+
+      <!-- TAB: POLÍTICA DE PRIVACIDAD -->
+      <div class="terms-tab-pane" id="tabPP">
+        <div class="terms-scroll">
+          <div class="terms-version">Cumple Ley 1581 de 2012 y Decreto 1377 de 2013 (Habeas Data) · Colombia</div>
+
+          <h3>1. Responsable del tratamiento</h3>
+          <p><strong>Ágora Software</strong>, domiciliada en Colombia, es responsable del tratamiento de los datos personales recopilados a través de LynxGuard y del proceso de contratación. Contacto: lynxguard@agorasoftware.net</p>
+
+          <h3>2. Datos que recopilamos</h3>
+          <p><strong>Al contratar el plan (sitio web):</strong></p>
+          <table class="terms-table">
+            <tr><th>Dato</th><th>Para qué</th></tr>
+            <tr><td>Correo electrónico</td><td>Identificación del Líder y comunicaciones del servicio</td></tr>
+            <tr><td>Contraseña</td><td>Autenticación (almacenada cifrada, nunca en texto plano)</td></tr>
+            <tr><td>Nombre de la empresa</td><td>Identificación de la organización en la plataforma</td></tr>
+            <tr><td>ID de empresa</td><td>Identificador único y permanente de la organización</td></tr>
+            <tr><td>N.° de cuentas contratadas</td><td>Configuración del plan y cálculo del pago</td></tr>
+            <tr><td>Datos de pago</td><td>Procesados directamente por PayPal. Ágora Software no almacena datos de tarjeta</td></tr>
+          </table>
+          <p><strong>Al usar la aplicación:</strong></p>
+          <table class="terms-table">
+            <tr><th>Dato</th><th>Para qué</th></tr>
+            <tr><td>Nombre y apellido</td><td>Identificación dentro de la organización</td></tr>
+            <tr><td>Cargo/Puesto</td><td>Perfil del usuario</td></tr>
+            <tr><td>Correo electrónico del usuario</td><td>Autenticación</td></tr>
+            <tr><td>Contraseña del usuario</td><td>Autenticación (cifrada). La define el Líder al crear la cuenta</td></tr>
+            <tr><td>Foto de perfil / avatar</td><td>Identificación visual en chats y llamadas</td></tr>
+            <tr><td>Mensajes de texto, voz e imágenes</td><td>Comunicaciones grupales</td></tr>
+            <tr><td>Historial de llamadas</td><td>Registro del servicio</td></tr>
+            <tr><td>Identificador de dispositivo (token)</td><td>Envío de notificaciones push</td></tr>
+            <tr><td>ID de sesión activa</td><td>Control de acceso único por dispositivo</td></tr>
+            <tr><td>Grupos, roles y permisos</td><td>Gestión organizativa</td></tr>
+          </table>
+          <p><strong>Datos técnicos automáticos:</strong> tipo de dispositivo y versión de SO (compatibilidad), registros de errores y crashlogs (estabilidad, análisis agregado), marcas de tiempo de actividad (licencias y seguridad).</p>
+          <p><strong>Lo que NO recopilamos:</strong> ubicación GPS, contactos del dispositivo, datos biométricos, datos de tarjeta de crédito/débito (gestionados íntegramente por PayPal).</p>
+
+          <h3>3. Nota importante: credenciales y gestión por el Líder</h3>
+          <p>El Líder de cada empresa crea las cuentas de los demás usuarios y define sus credenciales de acceso. Ágora Software no controla ni es responsable de cómo el Líder gestiona o distribuye las contraseñas. Los usuarios deben ser conscientes de que el Líder tiene acceso a las credenciales de sus cuentas en LynxGuard.</p>
+          <p>Los usuarios finales que deseen ejercer sus derechos de privacidad pueden contactar directamente a Ágora Software sin necesidad de intermediación del Líder.</p>
+
+          <h3>4. Finalidades del tratamiento</h3>
+          <p>Tratamos sus datos para:</p>
+          <ul>
+            <li>a) <strong>Prestación del servicio:</strong> autenticación, comunicación en tiempo real, gestión de grupos, roles y licencias.</li>
+            <li>b) <strong>Facturación y renovación:</strong> procesamiento del pago manual mensual y ajuste del plan.</li>
+            <li>c) <strong>Seguridad de la cuenta:</strong> detección de accesos no autorizados, gestión de sesiones, alertas de soporte técnico.</li>
+            <li>d) <strong>Notificaciones:</strong> mensajes nuevos, llamadas entrantes y cambios de rol.</li>
+            <li>e) <strong>Soporte técnico:</strong> diagnóstico de problemas y mantenimiento del sistema.</li>
+            <li>f) <strong>Mejora del servicio:</strong> análisis de errores técnicos de forma agregada. No implica revisión manual del contenido de los mensajes.</li>
+            <li>g) <strong>Cumplimiento legal:</strong> atender requerimientos de autoridades competentes conforme a la ley.</li>
+          </ul>
+
+          <h3>5. Proveedores de servicios terceros</h3>
+          <table class="terms-table">
+            <tr><th>Proveedor</th><th>Propósito</th><th>País</th></tr>
+            <tr><td>Google LLC (Firebase)</td><td>Autenticación, almacenamiento, notificaciones push, análisis de errores</td><td>EE.UU.</td></tr>
+            <tr><td>LiveKit</td><td>Infraestructura de voz y video en tiempo real (PTT y llamadas)</td><td>EE.UU.</td></tr>
+            <tr><td>PayPal (PayPal Holdings, Inc.)</td><td>Procesamiento de pagos al contratar o renovar el plan</td><td>EE.UU.</td></tr>
+          </table>
+          <p>Estos proveedores actúan bajo sus propias políticas de privacidad. <strong>Ágora Software no vende, arrienda ni comercializa datos personales a terceros con fines publicitarios o comerciales.</strong></p>
+
+          <h3>6. Transferencias internacionales de datos</h3>
+          <p>Google Firebase, LiveKit y PayPal procesan datos en servidores en Estados Unidos. Ágora Software garantiza que estas transferencias se realizan bajo las salvaguardas exigidas por la legislación colombiana vigente.</p>
+
+          <h3>7. Retención y eliminación de datos</h3>
+          <table class="terms-table">
+            <tr><th>Situación</th><th>Tiempo de retención</th></tr>
+            <tr><td>Empresa activa con plan vigente</td><td>Durante toda la vigencia del plan</td></tr>
+            <tr><td>Empresa suspendida por falta de pago</td><td>Hasta 90 días, sin acceso, para permitir reactivación</td></tr>
+            <tr><td>Cancelación definitiva del plan</td><td>Eliminación en máximo 30 días</td></tr>
+            <tr><td>Eliminación de usuario por el Líder</td><td>Eliminación inmediata de sus datos</td></tr>
+            <tr><td>Grupo eliminado</td><td>Los mensajes y archivos del grupo se eliminan junto con él</td></tr>
+            <tr><td>Registros técnicos (crashlogs)</td><td>Máximo 90 días</td></tr>
+          </table>
+          <p>Ágora Software puede retener datos mínimos por más tiempo cuando la ley colombiana lo requiera (ej. obligaciones fiscales, órdenes judiciales).</p>
+
+          <h3>8. Seguridad de los datos</h3>
+          <p>Implementamos las siguientes medidas de protección:</p>
+          <ul>
+            <li>Cifrado en tránsito (TLS/HTTPS) en todas las comunicaciones</li>
+            <li>Contraseñas almacenadas cifradas, nunca en texto plano</li>
+            <li>Control de acceso por roles con reglas de seguridad en base de datos</li>
+            <li>Verificación de integridad de la aplicación</li>
+            <li>Acceso restringido a datos: solo personal autorizado de Ágora Software, con registro de cada acceso de soporte y notificación al Líder</li>
+          </ul>
+          <p>Ningún sistema es 100% seguro. En caso de brecha de seguridad que afecte sus datos, se lo notificaremos conforme a lo exigido por la ley colombiana.</p>
+
+          <h3>9. Derechos del titular</h3>
+          <p>Conforme a la Ley 1581 de 2012, usted tiene derecho a:</p>
+          <ul>
+            <li>Conocer qué datos personales tenemos sobre usted</li>
+            <li>Actualizar y corregir sus datos (puede hacerlo desde su perfil en la app)</li>
+            <li>Solicitar la supresión de sus datos (sujeto a limitaciones legales)</li>
+            <li>Revocar el consentimiento otorgado</li>
+            <li>Presentar quejas ante la Superintendencia de Industria y Comercio (SIC): www.sic.gov.co</li>
+          </ul>
+          <p>Para ejercer estos derechos: lynxguard@agorasoftware.net — Plazo de respuesta: máximo <strong>15 días hábiles</strong>.</p>
+
+          <h3>10. Menores de edad</h3>
+          <p>LynxGuard es exclusivamente para uso empresarial y profesional. <strong>No está dirigido ni disponible para menores de 18 años.</strong> Si detectamos que un menor usa el servicio, eliminaremos su cuenta de inmediato.</p>
+
+          <h3>11. Cambios a esta Política</h3>
+          <p>Los cambios materiales se notificarán al Líder de cada empresa por correo electrónico con al menos 15 días de anticipación. Le recomendamos revisar esta política periódicamente.</p>
+
+          <h3>12. Contacto y autoridad de control</h3>
+          <p>Ágora Software | lynxguard@agorasoftware.net | +57 311 556 8418 | https://agorasoftware.net</p>
+          <p><strong>Autoridad de control en Colombia:</strong> Superintendencia de Industria y Comercio (SIC) — www.sic.gov.co</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>LynxGuard &copy; 2026 &nbsp;&middot;&nbsp; Un producto de <a href="https://agorasoftware.net" target="_blank" rel="noopener noreferrer">Ágora Software</a> &nbsp;&middot;&nbsp; Comunicación segura para operaciones críticas</p>
+    <p style="margin-top:8px;font-size:0.72rem;">
+      <a href="#" id="footerLinkTerminos" style="color:var(--accent-gold);">Términos y Condiciones</a>
+      &nbsp;&middot;&nbsp;
+      <a href="#" id="footerLinkPrivacidad" style="color:var(--accent-gold);">Política de Privacidad</a>
+      &nbsp;&middot;&nbsp;
+      <a href="mailto:lynxguard@agorasoftware.net" style="color:var(--text-muted);">lynxguard@agorasoftware.net</a>
+    </p>
+  </footer>
+
+  <script>
+    // Smooth scroll
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        const href = this.getAttribute('href');
+        if (href !== '#' && document.querySelector(href)) {
+          e.preventDefault();
+          document.querySelector(href).scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
+
+    // Intersection Observer para animaciones
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.animation = 'none';
+          void entry.target.offsetWidth;
+          entry.target.style.animation = null;
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.feature-card, .testimonial-card, .collage-item, .faq-item').forEach(el => {
+      observer.observe(el);
+    });
+
+    // Click effects
+    document.querySelectorAll('.btn-primary, .btn-secondary, .social-link').forEach(btn => {
+      btn.addEventListener('click', function() {
+        this.style.transform = 'scale(0.98)';
+        setTimeout(() => { this.style.transform = ''; }, 150);
+      });
+    });
+
+    // ── CONSTANTES ──
+    const PRECIO_POR_CUENTA = 12000;
+
+    // ── REFS MODAL TÉRMINOS (declarado aquí para uso compartido) ──
+    const terminosOverlay = document.getElementById('terminosOverlay');
+    const terminosClose   = document.getElementById('terminosClose');
+
+    // ── MODAL DESCARGA APK ──
+    const descargarOverlay  = document.getElementById('descargarOverlay');
+    const descargarClose    = document.getElementById('descargarClose');
+    const chkDescargar      = document.getElementById('chkDescargar');
+    const btnDescarga       = document.getElementById('btnDescargaConfirmada');
+
+    function abrirDescargarModal() {
+      chkDescargar.checked = false;
+      btnDescarga.style.opacity = '0.4';
+      btnDescarga.style.pointerEvents = 'none';
+      descargarOverlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    document.querySelectorAll('.btn-apk-dl').forEach(btn => {
+      btn.addEventListener('click', abrirDescargarModal);
+    });
+
+    descargarClose.addEventListener('click', function() {
+      descargarOverlay.classList.remove('active');
+      document.body.style.overflow = '';
+    });
+    descargarOverlay.addEventListener('click', function(e) {
+      if (e.target === this) {
+        descargarOverlay.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    });
+
+    chkDescargar.addEventListener('change', function() {
+      if (this.checked) {
+        btnDescarga.style.opacity = '1';
+        btnDescarga.style.pointerEvents = 'auto';
+      } else {
+        btnDescarga.style.opacity = '0.4';
+        btnDescarga.style.pointerEvents = 'none';
+      }
+    });
+
+    btnDescarga.addEventListener('click', function() {
+      if (!chkDescargar.checked) return;
+      setTimeout(function() {
+        descargarOverlay.classList.remove('active');
+        document.body.style.overflow = '';
+      }, 600);
+    });
+
+    document.getElementById('linkTermDescargar').addEventListener('click', function(e) {
+      e.preventDefault();
+      terminosOverlay.classList.add('active');
+    });
+    document.getElementById('linkTermDescargar2').addEventListener('click', function(e) {
+      e.preventDefault();
+      terminosOverlay.classList.add('active');
+    });
+
+    // ── REFS MODAL PLAN ──
+    const planOverlay    = document.getElementById('planOverlay');
+    const planClose      = document.getElementById('planClose');
+    const btnPlanNav     = document.getElementById('btnPlanNav');
+    const btnPlanHero    = document.getElementById('btnPlanHero');
+    const planForm       = document.getElementById('planForm');
+    const planCuentas    = document.getElementById('planCuentas');
+    const planTotalEl    = document.getElementById('planTotal');
+    const planStep1      = document.getElementById('planStep1');
+    const planStep2      = document.getElementById('planStep2');
+    const stepDot1       = document.getElementById('stepDot1');
+    const stepDot2       = document.getElementById('stepDot2');
+    const stepLabel      = document.getElementById('stepLabel');
+    const btnVolverStep1 = document.getElementById('btnVolverStep1');
+    const chkTerminos    = document.getElementById('chkTerminos');
+
+    // ── CÁLCULO DE TOTAL ──
+    function calcularTotal() {
+      const cuentas = parseInt(planCuentas.value) || 0;
+      const total = cuentas * PRECIO_POR_CUENTA;
+      planTotalEl.textContent = '$' + total.toLocaleString('es-CO') + '/mes';
+    }
+    planCuentas.addEventListener('input', calcularTotal);
+
+    // ── FECHAS ──
+    function calcularPeriodo() {
+      const hoy = new Date();
+      const fin = new Date(hoy);
+      fin.setDate(fin.getDate() + 30);
+      const opts = { day: 'numeric', month: 'long', year: 'numeric' };
+      const locale = 'es-CO';
+      return hoy.toLocaleDateString(locale, opts) + ' al ' + fin.toLocaleDateString(locale, opts);
+    }
+
+    // ── ABRIR / CERRAR MODAL PLAN ──
+    function abrirModal() {
+      planOverlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+      mostrarPaso1();
+    }
+
+    function cerrarModal() {
+      planOverlay.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    function mostrarPaso1() {
+      planStep1.classList.remove('hidden');
+      planStep2.classList.add('hidden');
+      stepDot1.className = 'step-dot active';
+      stepDot2.className = 'step-dot';
+      stepLabel.textContent = 'Datos del plan';
+    }
+
+    function mostrarPaso2() {
+      const empresa  = document.getElementById('planEmpresa').value.trim();
+      const idEmpresa = document.getElementById('planIdEmpresa').value.trim();
+      const cuentas  = parseInt(planCuentas.value) || 0;
+      const total    = cuentas * PRECIO_POR_CUENTA;
+
+      document.getElementById('sumEmpresa').textContent  = empresa;
+      document.getElementById('sumId').textContent       = idEmpresa;
+      document.getElementById('sumCuentas').textContent  = cuentas + ' cuenta' + (cuentas !== 1 ? 's' : '');
+      document.getElementById('sumTotal').textContent    = '$' + total.toLocaleString('es-CO') + ' COP';
+      document.getElementById('sumPeriodo').textContent  = calcularPeriodo();
+
+      chkTerminos.checked = false;
+
+      planStep1.classList.add('hidden');
+      planStep2.classList.remove('hidden');
+      stepDot1.className = 'step-dot done';
+      stepDot2.className = 'step-dot active';
+      stepLabel.textContent = 'Resumen y aceptación';
+
+      planOverlay.querySelector('.plan-modal').scrollTop = 0;
+      renderPayPalButtons();
+    }
+
+    const btnPlanCTA = document.getElementById('btnPlanCTA');
+    btnPlanNav.addEventListener('click', abrirModal);
+    btnPlanHero.addEventListener('click', abrirModal);
+    if (btnPlanCTA) btnPlanCTA.addEventListener('click', abrirModal);
+    planClose.addEventListener('click', cerrarModal);
+    planOverlay.addEventListener('click', function(e) {
+      if (e.target === this) cerrarModal();
+    });
+    btnVolverStep1.addEventListener('click', mostrarPaso1);
+
+    // ── ABRIR TÉRMINOS DESDE PASO 2 ──
+    document.getElementById('linkTerminosStep2').addEventListener('click', function(e) {
+      e.preventDefault();
+      terminosOverlay.classList.add('active');
+    });
+
+    // ── TABS MODAL TÉRMINOS ──
+    document.querySelectorAll('.terms-tab-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.terms-tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.terms-tab-pane').forEach(p => p.classList.remove('active'));
+        this.classList.add('active');
+        document.getElementById('tab' + this.dataset.tab.toUpperCase()).classList.add('active');
+      });
+    });
+
+    terminosClose.addEventListener('click', function() {
+      terminosOverlay.classList.remove('active');
+    });
+    terminosOverlay.addEventListener('click', function(e) {
+      if (e.target === this) terminosOverlay.classList.remove('active');
+    });
+
+    // Footer links — abren el modal de términos en el tab correspondiente
+    function abrirTerminosTab(tab) {
+      document.querySelectorAll('.terms-tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.terms-tab-pane').forEach(p => p.classList.remove('active'));
+      const btn = document.querySelector(`.terms-tab-btn[data-tab="${tab}"]`);
+      if (btn) btn.classList.add('active');
+      document.getElementById('tab' + tab.toUpperCase()).classList.add('active');
+      terminosOverlay.classList.add('active');
+    }
+    const footerLinkTerminos = document.getElementById('footerLinkTerminos');
+    const footerLinkPrivacidad = document.getElementById('footerLinkPrivacidad');
+    if (footerLinkTerminos) footerLinkTerminos.addEventListener('click', function(e) { e.preventDefault(); abrirTerminosTab('tc'); });
+    if (footerLinkPrivacidad) footerLinkPrivacidad.addEventListener('click', function(e) { e.preventDefault(); abrirTerminosTab('pp'); });
+
+    // ── PASO 1 → PASO 2 (validación del formulario) ──
+    planForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const pass  = document.getElementById('planPass').value;
+      const pass2 = document.getElementById('planPass2').value;
+      const idEmpresa = document.getElementById('planIdEmpresa').value.trim();
+      const cuentas   = parseInt(planCuentas.value);
+
+      if (pass !== pass2) { alert('Las contraseñas no coinciden.'); return; }
+      if (pass.length < 6) { alert('La contraseña debe tener al menos 6 caracteres.'); return; }
+      if (!idEmpresa || /\s/.test(idEmpresa)) { alert('El ID de empresa no debe contener espacios.'); return; }
+      if (!cuentas || cuentas < 1) { alert('Ingresa un número válido de cuentas (mínimo 1).'); return; }
+
+      mostrarPaso2();
+    });
+
+    // ── PAYPAL BUTTONS ──
+    function renderPayPalButtons() {
+      const container = document.getElementById('paypal-button-container');
+      if (!container) return;
+      container.innerHTML = '';
+
+      if (typeof paypal === 'undefined') {
+        container.innerHTML = '<p style="color:#e04040;font-size:0.8rem;text-align:center;padding:14px 0;">El procesador de pago no está disponible en este momento.<br>Contáctanos: <a href="mailto:lynxguard@agorasoftware.net" style="color:var(--accent-gold);">lynxguard@agorasoftware.net</a></p>';
+        return;
+      }
+
+      paypal.Buttons({
+        style: { layout: 'vertical', color: 'blue', shape: 'rect', label: 'pay' },
+
+        onClick: function(data, actions) {
+          if (!chkTerminos.checked) {
+            const row = chkTerminos.closest('.accept-row');
+            row.style.outline = '1px solid rgba(251,191,36,0.7)';
+            row.style.borderRadius = '8px';
+            setTimeout(() => { row.style.outline = ''; }, 2500);
+            return actions.reject();
+          }
+          return actions.resolve();
+        },
+
+        createOrder: function(data, actions) {
+          const cuentas = parseInt(planCuentas.value) || 1;
+          const total = cuentas * PRECIO_POR_CUENTA;
+          return actions.order.create({
+            purchase_units: [{
+              description: 'LynxGuard — Plan mensual (' + cuentas + ' cuenta' + (cuentas !== 1 ? 's' : '') + ')',
+              amount: { currency_code: 'COP', value: String(total) }
+            }]
+          });
+        },
+
+        onApprove: async function(data, actions) {
+          try {
+            const details = await actions.order.capture();
+
+            const email     = document.getElementById('planEmail').value.trim();
+            const pass      = document.getElementById('planPass').value;
+            const empresa   = document.getElementById('planEmpresa').value.trim();
+            const idEmpresa = document.getElementById('planIdEmpresa').value.trim();
+            const cuentas   = parseInt(planCuentas.value);
+            const tsAceptacion = new Date().toISOString();
+
+            const hoy = new Date();
+            const vencimiento = new Date(hoy);
+            vencimiento.setDate(vencimiento.getDate() + 30);
+
+            const tieneFirebase = typeof firebase !== 'undefined' &&
+              firebase.app().options.apiKey &&
+              firebase.app().options.apiKey !== 'AQUI_TU_API_KEY';
+
+            if (tieneFirebase) {
+              const credencial = await firebase.auth().createUserWithEmailAndPassword(email, pass);
+              const uid = credencial.user.uid;
+              await firebase.firestore().collection('empresas').doc(idEmpresa).set({
+                uidAdmin: uid,
+                nombreEmpresa: empresa,
+                emailAdmin: email,
+                idEmpresa: idEmpresa,
+                cuentasContratadas: cuentas,
+                estadoPago: 'activo',
+                metodoPago: 'paypal',
+                paypalOrderId: details.id,
+                paypalPayerId: details.payer ? details.payer.payer_id : '',
+                fechaInicio: hoy.toISOString(),
+                fechaVencimiento: vencimiento.toISOString(),
+                fechaCreacion: firebase.firestore.FieldValue.serverTimestamp(),
+                fechaAceptacionTerminos: tsAceptacion,
+                versionTerminos: '1.0'
+              });
+            }
+
+            cerrarModal();
+            const toast = document.getElementById('pagoExitosoToast');
+            if (toast) {
+              toast.classList.add('show');
+              setTimeout(() => toast.classList.remove('show'), 8000);
+            }
+
+          } catch (error) {
+            console.error('Error post-pago:', error);
+            alert('El pago fue procesado, pero hubo un error al activar tu cuenta. Contáctanos de inmediato a lynxguard@agorasoftware.net con tu comprobante. Error: ' + error.message);
+          }
+        },
+
+        onError: function(err) {
+          console.error('PayPal error:', err);
+        }
+
+      }).render('#paypal-button-container');
+    }
+  </script>
+  <!-- TOAST PAGO EXITOSO -->
+  <div id="pagoExitosoToast" class="pago-toast">
+    <strong>¡Pago realizado con éxito!</strong><br>
+    Tu cuenta de LynxGuard ha sido activada. Revisa tu correo para los detalles de acceso.<br>
+    <small>¿Dudas? <a href="mailto:lynxguard@agorasoftware.net" style="color:var(--accent-gold);">lynxguard@agorasoftware.net</a></small>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+  <script src="https://www.paypal.com/sdk/js?client-id=AY_mVc4M45djICzuKBKTH7dTcEQqNR6ar3qcawhFlXjMAesoe_uGvNjct81U-jgxwWjzX87Kzl9ROB4X&currency=COP&locale=es_CO" data-sdk-integration-source="button-factory"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyCG6GnKq8sAWKkwuus4sJ3ZPZXwJBRWnTs",
+      authDomain: "protre-4e304.firebaseapp.com",
+      projectId: "protre-4e304",
+      storageBucket: "protre-4e304.firebasestorage.app",
+      messagingSenderId: "603315335430",
+      appId: "1:603315335430:web:c89dc9dd8fbb5043392e87"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+  </script>
+</body>
+</html>
