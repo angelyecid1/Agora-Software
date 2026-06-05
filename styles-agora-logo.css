@@ -89,13 +89,12 @@ ul { list-style: none; }
   padding: 8px 56px;
   background: #ffffff;
   border-bottom: 1px solid transparent;
-  transition: background .25s ease, border-color .25s ease, box-shadow .25s ease;
+  transition: border-color .25s ease, box-shadow .25s ease;
 }
 .navbar.scrolled {
   background: #ffffff;
-  backdrop-filter: blur(12px);
-  border-bottom-color: var(--line);
-  box-shadow: 0 8px 20px rgba(10, 19, 34, 0.06);
+  border-bottom-color: rgba(18,58,111,.14);
+  box-shadow: 0 4px 16px rgba(10, 19, 34, 0.07);
 }
 
 .logo {
@@ -140,14 +139,14 @@ ul { list-style: none; }
 }
 
 .appbar-logo {
-  opacity: 0;
-  transform: translateY(calc(-50% - 8px)) scale(.82);
+  opacity: 1;
+  transform: translateY(-50%);
+  transition: none;
 }
 
 .appbar-brand-text {
-  opacity: 1;
+  opacity: 0;
   transform: translateY(-50%);
-  transition: opacity .35s ease, transform .35s ease;
 }
 
 .nav-links {
@@ -221,7 +220,7 @@ ul { list-style: none; }
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 34px;
+  gap: 16px;
   max-width: none;
   margin: 0 auto;
   padding: 72px var(--section-x) 36px;
@@ -248,10 +247,10 @@ ul { list-style: none; }
 .hero-logo-right {
   position: absolute;
   right: max(var(--section-x), calc((100vw - var(--section-max)) / 2 + 16px));
-  top: 43%;
+  top: 50%;
   transform: translateY(-50%);
-  width: clamp(210px, 25vw, 340px);
-  height: clamp(150px, 18vw, 250px);
+  width: clamp(240px, 28vw, 380px);
+  height: clamp(180px, 21vw, 290px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -305,7 +304,7 @@ ul { list-style: none; }
   font-size: clamp(2.2rem, 5vw, 4.8rem);
   line-height: .93;
   letter-spacing: -.035em;
-  margin-bottom: 20px;
+  margin-bottom: 8px;
   max-width: 860px;
   font-weight: 800;
 }
@@ -323,7 +322,7 @@ ul { list-style: none; }
   justify-content: space-between;
   gap: 26px;
   border-top: 1px solid var(--line);
-  padding-top: 12px;
+  padding-top: 8px;
   max-width: 860px;
 }
 .hero-desc {
@@ -1177,8 +1176,8 @@ a.cnt-row:hover .cr-val { color: var(--navy); }
   .appbar-logo {
     opacity: 1;
     transform: translateY(-50%);
-    width: 44px;
-    height: 44px;
+    width: 62px;
+    height: 62px;
   }
   .appbar-brand-text {
     opacity: 0;

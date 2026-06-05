@@ -17,7 +17,7 @@ const cursor    = document.getElementById('cursor');
 const cursorDot = document.getElementById('cursorDot');
 const isTouch   = () => !window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
-if (!isTouch()) {
+if (!isTouch() && cursor && cursorDot) {
   let mx = 0, my = 0, cx = 0, cy = 0;
 
   document.addEventListener('mousemove', e => {
@@ -47,47 +47,6 @@ window.addEventListener('scroll', () => {
   navbar.classList.toggle('scrolled', window.scrollY > 30);
 }, { passive: true });
 
-// ── Connected logo transition ─────────
-const heroLogo = document.querySelector('.hero-logo-right');
-const heroSection = document.querySelector('.hero');
-const appbarLogo = document.querySelector('.appbar-logo');
-const appbarBrandText = document.querySelector('.appbar-brand-text');
-
-function syncLogoTransition() {
-  if (!heroLogo || !heroSection || !appbarLogo || !appbarBrandText) {
-    return;
-  }
-
-  const compactView = window.innerWidth <= 980;
-  if (compactView) {
-    heroLogo.style.opacity = '1';
-    heroLogo.style.transform = 'translateY(-50%)';
-    appbarLogo.style.opacity = '1';
-    appbarLogo.style.transform = 'translateY(-50%)';
-    appbarBrandText.style.opacity = '0';
-    appbarBrandText.style.transform = 'translateY(calc(-50% - 6px))';
-    return;
-  }
-
-  const fadeDistance = Math.max(heroSection.offsetHeight * 0.34, 180);
-  const progress = Math.min(Math.max(window.scrollY / fadeDistance, 0), 1);
-  const heroScale = 1 - (progress * 0.12);
-  const logoProgress = progress <= 0.28 ? 0 : Math.min((progress - 0.28) / 0.72, 1);
-  const navScale = 0.82 + (logoProgress * 0.18);
-  const navLift = (1 - logoProgress) * -8;
-  const textOpacity = 1 - logoProgress;
-
-  heroLogo.style.opacity = String(1 - progress);
-  heroLogo.style.transform = `translateY(-50%) scale(${heroScale})`;
-  appbarLogo.style.opacity = String(logoProgress);
-  appbarLogo.style.transform = `translateY(calc(-50% + ${navLift}px)) scale(${navScale})`;
-  appbarBrandText.style.opacity = String(textOpacity);
-  appbarBrandText.style.transform = `translateY(calc(-50% + ${logoProgress * -6}px))`;
-}
-
-window.addEventListener('scroll', syncLogoTransition, { passive: true });
-window.addEventListener('resize', syncLogoTransition);
-syncLogoTransition();
 
 // ── Hamburger ─────────────────────────
 const hamburger = document.getElementById('hamburger');
