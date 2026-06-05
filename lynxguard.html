@@ -1380,7 +1380,7 @@
     .pago-toast strong { color: var(--accent-gold); }
     .pago-toast small { font-size: 0.78rem; color: var(--text-muted); }
 
-    /* ── Hamburger lynxguard ── */
+    /* ── Hamburger + Drawer lynxguard ── */
     .lx-hamburger {
       display: none;
       flex-direction: column;
@@ -1390,7 +1390,8 @@
       border: none;
       cursor: pointer;
       padding: 6px;
-      z-index: 10;
+      z-index: 1100;
+      flex-shrink: 0;
     }
     .lx-hamburger span {
       display: block;
@@ -1403,6 +1404,15 @@
     .lx-hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
     .lx-hamburger.active span:nth-child(2) { opacity: 0; width: 0; }
     .lx-hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+    .lx-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.45);
+      z-index: 1050;
+      backdrop-filter: blur(2px);
+    }
+    .lx-overlay.lx-open { display: block; }
 
     @media (max-width: 768px) {
       header {
@@ -1415,30 +1425,32 @@
       }
 
       nav {
-        display: none;
-        position: absolute;
-        top: 100%;
-        left: 0;
-        right: 0;
+        position: fixed;
+        top: 0;
+        left: -100%;
+        bottom: 0;
+        width: 78%;
+        max-width: 300px;
         flex-direction: column;
         gap: 0;
         align-items: stretch;
-        background: rgba(10, 14, 28, 0.97);
-        backdrop-filter: blur(14px);
-        border-bottom: 1px solid rgba(255,255,255,0.07);
-        padding: 8px 20px 16px;
-        z-index: 999;
+        background: #0d1526;
+        border-right: 1px solid rgba(255,255,255,0.08);
+        padding: 72px 24px 32px;
+        z-index: 1060;
+        transition: left 0.3s cubic-bezier(.22,1,.36,1);
+        overflow-y: auto;
       }
-      nav.lx-open { display: flex; }
+      nav.lx-open { left: 0; }
       nav a {
-        padding: 11px 0;
-        border-bottom: 1px solid rgba(255,255,255,0.05);
-        font-size: 0.9rem;
+        padding: 13px 0;
+        border-bottom: 1px solid rgba(255,255,255,0.06);
+        font-size: 0.95rem;
       }
       nav a:last-of-type { border-bottom: none; }
       nav .btn-nav,
       nav .btn-plan {
-        margin-top: 10px;
+        margin-top: 14px;
         width: 100%;
         justify-content: center;
       }
@@ -1447,12 +1459,22 @@
         grid-template-columns: 1fr;
         height: auto;
         min-height: 100svh;
-        padding: 90px 20px 50px;
+        padding: 90px 20px 40px;
         margin-top: 0;
-        gap: 0;
+        gap: 20px;
       }
 
-      .hero-visual { display: none; }
+      .hero-visual {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: auto;
+      }
+      .hero-logo {
+        max-height: 200px;
+        width: auto;
+        max-width: 70vw;
+      }
 
       .hero h1 {
         font-size: 2rem;
@@ -1536,6 +1558,8 @@
   </style>
 </head>
 <body>
+
+  <div class="lx-overlay" id="lxOverlay"></div>
 
   <!-- HEADER -->
   <header>
@@ -2452,19 +2476,31 @@
 
     // ── HAMBURGER MÓVIL ──
     const lxHamburger = document.getElementById('lxHamburger');
-    const lxNav = document.getElementById('lxNav');
+    const lxNav       = document.getElementById('lxNav');
+    const lxOverlay   = document.getElementById('lxOverlay');
+
+    function lxOpenDrawer() {
+      lxHamburger.classList.add('active');
+      lxNav.classList.add('lx-open');
+      lxOverlay.classList.add('lx-open');
+      lxHamburger.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+    }
+    function lxCloseDrawer() {
+      lxHamburger.classList.remove('active');
+      lxNav.classList.remove('lx-open');
+      lxOverlay.classList.remove('lx-open');
+      lxHamburger.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    }
+
     if (lxHamburger && lxNav) {
       lxHamburger.addEventListener('click', () => {
-        const open = lxHamburger.classList.toggle('active');
-        lxNav.classList.toggle('lx-open', open);
-        lxHamburger.setAttribute('aria-expanded', open);
+        lxNav.classList.contains('lx-open') ? lxCloseDrawer() : lxOpenDrawer();
       });
+      lxOverlay.addEventListener('click', lxCloseDrawer);
       lxNav.querySelectorAll('a, button').forEach(el => {
-        el.addEventListener('click', () => {
-          lxHamburger.classList.remove('active');
-          lxNav.classList.remove('lx-open');
-          lxHamburger.setAttribute('aria-expanded', 'false');
-        });
+        el.addEventListener('click', lxCloseDrawer);
       });
     }
 

@@ -1,5 +1,17 @@
 ﻿// === AGORA SOFTWARE — JS ===
 
+// ── Restaurar posición de scroll al volver desde otra página ──
+window.addEventListener('pagehide', () => {
+  sessionStorage.setItem('agoraScrollPos', window.scrollY);
+});
+window.addEventListener('load', () => {
+  const saved = sessionStorage.getItem('agoraScrollPos');
+  if (saved) {
+    sessionStorage.removeItem('agoraScrollPos');
+    setTimeout(() => window.scrollTo({ top: parseInt(saved, 10), behavior: 'instant' }), 80);
+  }
+});
+
 // ── Custom Cursor ─────────────────────
 const cursor    = document.getElementById('cursor');
 const cursorDot = document.getElementById('cursorDot');

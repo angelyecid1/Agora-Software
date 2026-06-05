@@ -1197,15 +1197,22 @@ a.cnt-row:hover .cr-val { color: var(--navy); }
   .hero-top,
   .hero-bottom { margin: 0; }
   .hero-logo-right {
-    position: absolute;
-    right: 16px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 200px;
-    opacity: 0.12;
-    pointer-events: none;
+    position: relative;
+    right: auto;
+    top: auto;
+    transform: none;
+    width: 100%;
+    opacity: 1;
+    pointer-events: auto;
+    display: flex;
+    justify-content: center;
+    margin: 20px 0 10px;
   }
-  .hero-logo-right img { width: 200px; }
+  .hero-logo-right img {
+    width: min(180px, 44vw);
+    height: auto;
+    opacity: 0.85;
+  }
   .servicios,
   .proyectos,
   .nosotros,
